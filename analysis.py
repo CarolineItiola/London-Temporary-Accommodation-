@@ -1,3 +1,57 @@
+"""
+Rent levels and out-of-borough placement in London, March 2026.
+
+QUESTION
+    Do London boroughs with higher private rents place a larger share of
+    their temporary accommodation households outside the borough?
+
+WHAT THIS SCRIPT DOES
+    1. Reads MHCLG table TA1 for households in temporary accommodation
+       and TA9_TATYPE for households placed in another local authority.
+    2. Reads the ONS Price Index of Private Rents and takes average
+       monthly one-bedroom rent for March 2026, plus a Jan-Mar average
+       for a robustness check.
+    3. Joins the two on ONS local authority code (E09xxxxxx), not on
+       borough name, because MHCLG writes "Kensington & Chelsea" and ONS
+       writes "Kensington and Chelsea". Joining on name would silently
+       drop rows.
+    4. Computes out-of-borough share = households placed in temporary
+       accommodation in another LA / all households in temporary
+       accommodation in that borough.
+    5. Measures the association with Spearman rank correlation, chosen
+       over Pearson because n = 32 is small and the rent distribution is
+       skewed by a few very expensive inner boroughs.
+    6. Runs three pre-registered falsification tests and prints them all,
+       including any that would overturn the finding.
+
+INPUTS (not committed, download links in README.md)
+    Statutory_Homelessness_Detailed_Local_Authority_Data_202603.ods
+    priceindexofprivaterentsukmonthlypricestatistics.xlsx
+    Change the two paths below to wherever you saved them.
+
+OUTPUTS
+    joined_32_boroughs.csv        the joined dataset, 32 rows
+    stats.json                    the correlation results
+    rent_vs_out_of_borough.png    the scatter
+
+EXPECTED RESULT
+    32 rows after the join. Spearman rho = 0.486, p = 0.005.
+    If the row count is not 32, the join has failed; do not trust
+    anything printed after it.
+
+A NOTE ON ONE COLUMN CHOICE
+    TA1 column 22 ("Households owed a TA duty in another LA") is broader
+    than this question: note 36 says it mixes placements with cases
+    recorded as duty owed but no accommodation secured, so it can exceed
+    the total in temporary accommodation. The numerator here comes from
+    TA9_TATYPE instead. See DATA_DICTIONARY.md.
+
+Spearman is implemented directly rather than via scipy, so the only
+dependencies are pandas, odfpy, openpyxl and matplotlib.
+
+Caroline Itiola, November 2026.
+"""
+
 import pandas as pd, numpy as np, re, math, json
 import matplotlib
 matplotlib.use("Agg")
