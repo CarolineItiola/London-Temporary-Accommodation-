@@ -106,7 +106,7 @@ experimental, are in the full write-up.)
 | `joined_32_boroughs.csv` | The joined dataset, 32 rows |
 | `DATA_DICTIONARY.md` | What every column means, and which two are easy to confuse |
 | `rent_vs_out_of_borough.png` | The scatter |
-| `London_TA_Findings.docx` | Full write-up with method, recommendations and limitations |
+| `Findings.pdf` | Full write-up with method, recommendations and limitations |
 
 ## Reproducing this
 
