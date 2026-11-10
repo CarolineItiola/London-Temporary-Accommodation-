@@ -13,7 +13,7 @@ reported, including those that could have overturned the finding.
 The analysis is fully reproducible from a single script and two publicly
 available source files.
 
-![Rent against out-of-borough placement, 32 London boroughs](rent_vs_out_of_borough.png)
+![Rent against out-of-borough placement, 32 London boroughs](Rent%20vs%20out%20of%20borough.png)
 
 ## The question
 
